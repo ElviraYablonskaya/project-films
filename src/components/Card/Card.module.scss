@@ -1,0 +1,32 @@
+@import "src/styles/colors";
+
+.card {
+}
+
+.rating {
+  position: absolute;
+  background-color: $green;
+  color: $white;
+  border-radius: 5px;
+  padding: 2px 8px;
+  margin-left: 10px;
+}
+
+.image {
+  width: 200px;
+  border-radius: 20px;
+}
+
+.name {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: $white;
+}
+
+.genre {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: $light;
+}

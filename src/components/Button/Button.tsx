@@ -8,7 +8,7 @@ type ButtonProps = {
   type: ButtonTypes;
   title: string | ReactElement;
   onClick: () => void;
-  disabled: boolean;
+  disabled?: boolean;
   className?: string;
 };
 
