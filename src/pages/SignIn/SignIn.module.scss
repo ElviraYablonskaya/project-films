@@ -1,0 +1,27 @@
+@import "src/styles/colors";
+
+.signInContainer {
+  background-image: url("../../img/signInBG.png");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.forgotPassword {
+  color: $secondary;
+  margin-top: 8px;
+  margin-bottom:40px;
+
+}
+
+.additionalInfo {
+  color: $secondary;
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.signIn{
+  color: $primary;
+}
