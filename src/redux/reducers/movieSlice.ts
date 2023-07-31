@@ -14,7 +14,7 @@ const movieSlice = createSlice({
   name: "movieReducer",
   initialState,
   reducers: {
-    getAllMovies(_, __: PayloadAction<undefined>) {},
+    getAllMovies(_, __: PayloadAction<string>) {},
     setAllMovies(state, action: PayloadAction<MoviesListType>) {
       state.moviesList = action.payload;
     },

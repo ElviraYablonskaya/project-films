@@ -7,6 +7,7 @@ export enum ButtonTypes {
 export type MoviesType = {
   id: number;
   name: string;
+  type:string;
   release_date?: string;
   year?: string;
   tagline?: string;
