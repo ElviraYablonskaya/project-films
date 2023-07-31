@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export enum ButtonTypes {
   Primary = "primary",
   Secondary = "secondary",
@@ -33,3 +35,18 @@ export type MoviesType = {
 };
 
 export type MoviesListType = MoviesType[];
+
+export enum TabsTypes {
+  Home = "home",
+  Trends = "trends",
+  Favorites = "favorites",
+  Settings = "settings",
+}
+
+export type Tab = {
+  key: TabsTypes;
+  title: string;
+  disabled: boolean;
+  icon?: ReactElement 
+};
+export type TabsListType = Tab[];

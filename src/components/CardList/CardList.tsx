@@ -8,7 +8,6 @@ import styles from "./CardList.module.scss"
 const CardList: FC = () => {
   const dispatch = useDispatch()
   const movies = useSelector(MovieSelectors.getAllMovies)
-  console.log(movies)
 
   useEffect(() => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
