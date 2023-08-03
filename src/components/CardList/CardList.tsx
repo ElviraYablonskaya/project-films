@@ -3,20 +3,20 @@ import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { MovieSelectors, getAllMovies } from "../../redux/reducers/movieSlice";
 import { ACCESS_TOKEN_KEY } from "../../utils/constants";
-import styles from "./CardList.module.scss"
+import styles from "./CardList.module.scss";
 
 const CardList: FC = () => {
-  const dispatch = useDispatch()
-  const movies = useSelector(MovieSelectors.getAllMovies)
+  const dispatch = useDispatch();
+  const movies = useSelector(MovieSelectors.getAllMovies);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
-    if(accessToken) {
-    dispatch(getAllMovies(accessToken))
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+    if (accessToken) {
+      dispatch(getAllMovies(accessToken));
     } else {
-      console.error("Token not found")
+      console.error("Token not found");
     }
-  },[dispatch])
+  }, [dispatch]);
 
   return (
     <div className={styles.cardContainer}>

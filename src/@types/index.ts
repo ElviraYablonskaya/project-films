@@ -30,7 +30,7 @@ export type MoviesType = {
   language?: string;
   original_title?: string;
   certification?: string;
-  rating: string;
+  rating: number;
   vote_count?: number;
 };
 

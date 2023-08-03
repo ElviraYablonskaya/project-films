@@ -5,6 +5,8 @@ import Title from "../../components/Title/Title";
 import styles from "./SignIn.module.scss";
 import { useDispatch } from "react-redux";
 import { signInUser } from "../../redux/reducers/authSlice";
+import { Link } from "react-router-dom";
+import { RoutesList } from "../Router";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -30,8 +32,10 @@ const SignIn = () => {
         onSubmit={onSubmit}
         additionalInfo={
           <div className={styles.additionalInfo}>
-            {"Don't have an account?"}
-            <span className={styles.signIn}>Sign Up</span>
+            Don't have an account?
+            <Link to={RoutesList.SignUp}>
+              <span className={styles.signIn}> Sign Up </span>
+            </Link>
           </div>
         }
       >

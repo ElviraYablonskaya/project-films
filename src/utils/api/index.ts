@@ -25,8 +25,21 @@ const signInUser = (data: SignInResponseData) => {
   return API.post("/auth/login", data);
 };
 
+const getSingleMovieData = (token: string, id: string) => {
+  return API.get(
+    `/titles/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 export default {
   getMovies,
   signUpUser,
   signInUser,
+  getSingleMovieData,
 };

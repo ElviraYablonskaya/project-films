@@ -5,6 +5,8 @@ import Title from "../../components/Title";
 import styles from "./SignUp.module.scss";
 import { useDispatch } from "react-redux";
 import { signUpUser } from "../../redux/reducers/authSlice";
+import { RoutesList } from "../Router";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -19,7 +21,7 @@ const SignUp = () => {
       email,
       password,
       password_confirmation: confirmPassword,
-      token_name: "123"
+      token_name: "123",
     };
     dispatch(signUpUser({ data, callback: () => console.log("okey") }));
   };
@@ -34,7 +36,9 @@ const SignUp = () => {
         additionalInfo={
           <div className={styles.additionalInfo}>
             {"Already have an account?"}
-            <span className={styles.signIn}>Sign In</span>
+            <Link to={RoutesList.SignIn}>
+              <span className={styles.signUp}> Sign In </span>
+            </Link>
           </div>
         }
       >

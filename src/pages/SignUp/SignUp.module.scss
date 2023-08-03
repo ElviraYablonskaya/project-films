@@ -14,8 +14,11 @@
   justify-content: center;
 }
 
-.signIn {
+.signUp {
   color: $primary;
+  margin-left: 5px;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .input {

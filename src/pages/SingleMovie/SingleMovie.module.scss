@@ -1,0 +1,140 @@
+@import "src/styles/colors";
+
+.poster {
+  width: 450px;
+  height: 356px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+}
+
+.icon {
+  margin-right: 10px;
+  padding-top: 25px;
+}
+
+.tabsCard {
+  display: flex;
+  margin-left: 30px;
+}
+
+.singleMovieCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  color: $white;
+  margin: 10px;
+}
+
+.name {
+  color: $white;
+  font-size: 30px;
+  margin-bottom: 24px;
+}
+
+.movieTotal {
+  font-size: 16px;
+  line-height: 50px;
+}
+
+.genres {
+  display: flex;
+  gap: 20px;
+
+  > div {
+    position: relative;
+    color: $light;
+    font-weight: 500;
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: 4px;
+      width: 4px;
+      background-color: $light;
+      border-radius: 50%;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &:last-child::before {
+      display: none;
+    }
+  }
+}
+
+.ratingRuntime {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.rating {
+  color: $white;
+  border-radius: 5px;
+  padding: 2px 8px;
+}
+
+.ratingImdb {
+  display: flex;
+  align-items: center;
+  background-color: $graphite;
+  border-radius: 5px;
+  padding: 2px 8px;
+  gap: 10px;
+}
+
+.runtime {
+  background-color: $graphite;
+  border-radius: 5px;
+  padding: 2px 8px;
+}
+
+.year {
+  color: $light;
+  margin-right: 103px;
+}
+
+.released {
+  color: $light;
+  margin-right: 67px;
+}
+
+.budget {
+  color: $light;
+  margin-right: 64px;
+}
+
+.director {
+  color: $light;
+  margin-right: 75px;
+}
+
+.directorName {
+  display: flex;
+}
+
+.writers {
+  color: $light;
+  margin-right: 79px;
+}
+
+.writersNames {
+  display: flex;
+}
+
+.actors {
+  color: $light;
+  margin-right: 87px;
+}
+.actorsName {
+  display: flex;
+}
