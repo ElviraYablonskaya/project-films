@@ -21,6 +21,11 @@ import {
 import { FaImdb } from "react-icons/fa";
 import { SingleMovieCredits } from "../../redux/@types";
 import Loader from "../../components/Loader";
+import SelectedImageModal from "./SelectedImageModal/SelectedImageModal";
+import {
+  setSelectedImage,
+  setSelectedImageModalOpened,
+} from "../../redux/reducers/imageSlice";
 
 const SingleMovie = () => {
   const [activeTab, setActiveTab] = useState<TabsTypes | null>(null);
@@ -107,6 +112,11 @@ const SingleMovie = () => {
   const writers = getNames("writing");
   const actors = getNames("cast");
 
+  const onPosterClick = () => {
+    dispatch(setSelectedImageModalOpened(true));
+    dispatch(setSelectedImage(singleMovie?.poster || ""));
+  };
+
   return (
     <div>
       <Header />
@@ -120,9 +130,14 @@ const SingleMovie = () => {
           <Loader />
         ) : (
           <div className={styles.singleMovieCard}>
+            <SelectedImageModal />
             {singleMovie?.poster && (
               <div className={styles.poster}>
-                <img src={singleMovie?.poster} alt={singleMovie?.name} />
+                <img
+                  src={singleMovie?.poster}
+                  alt={singleMovie?.name}
+                  onClick={onPosterClick}
+                />
               </div>
             )}
             <div>

@@ -9,7 +9,7 @@ export enum ButtonTypes {
 export type MoviesType = {
   id: number;
   name: string;
-  type:string;
+  type: string;
   release_date?: string;
   year?: string;
   tagline?: string;
@@ -47,6 +47,8 @@ export type Tab = {
   key: TabsTypes;
   title: string;
   disabled: boolean;
-  icon?: ReactElement 
+  icon?: ReactElement;
 };
 export type TabsListType = Tab[];
+
+export type Children = ReactElement | ReactElement[];
