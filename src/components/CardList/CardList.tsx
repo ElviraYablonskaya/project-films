@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MovieSelectors, getAllMovies } from "../../redux/reducers/movieSlice";
 import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 import styles from "./CardList.module.scss";
+import Loader from "../Loader";
 
 const CardList: FC = () => {
   const dispatch = useDispatch();
@@ -16,9 +17,13 @@ const CardList: FC = () => {
     } else {
       console.error("Token not found");
     }
-  }, [dispatch]);
+  }, []);
 
-  return (
+  const isLoaderAllMovies = useSelector(MovieSelectors.getLoaderAllMovies);
+
+  return isLoaderAllMovies ? (
+    <Loader />
+  ) : (
     <div className={styles.cardContainer}>
       {movies.map((movie) => {
         return <Card card={movie} key={movie.id} />;

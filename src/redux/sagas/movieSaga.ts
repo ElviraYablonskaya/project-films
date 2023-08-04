@@ -5,6 +5,8 @@ import {
   getAllMovies,
   getSingleMovie,
   setAllMovies,
+  setLoaderAllMovies,
+  setLoaderSingleMovie,
   setSingleMovie,
 } from "../reducers/movieSlice";
 import { MoviesListType } from "../../@types";
@@ -13,25 +15,22 @@ import { SingleMovieResponseData } from "../@types";
 import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 
 function* getMoviesWorker(action: PayloadAction<string>) {
+  yield put(setLoaderAllMovies(true));
   const accessToken = action.payload;
   const response: ApiResponse<MoviesListType> = yield call(
     API.getMovies,
     accessToken
   );
-  if (response.ok) {
-    const movies = response.data.pagination.data;
-    if (movies) {
-      // Проверяем, что movies не является undefined
-      yield put(setAllMovies(movies));
-    } else {
-      console.error("Get Movies List error: movies is undefined");
-    }
+  if (response.ok && response.data) {
+    yield put(setAllMovies(response.data.pagination.data));
+    yield put(setLoaderAllMovies(false));
   } else {
-    console.error("Get Movies List error", response.problem);
+    console.log("List Movie error", response.problem);
   }
 }
 
 function* getSingleMovieWorker(action: PayloadAction<string>) {
+  yield put(setLoaderSingleMovie(true));
   const id = parseInt(action.payload);
   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
   const response: ApiResponse<SingleMovieResponseData> = yield call(
@@ -41,6 +40,7 @@ function* getSingleMovieWorker(action: PayloadAction<string>) {
   );
   if (response.ok && response.data) {
     yield put(setSingleMovie(response.data.title));
+    yield put(setLoaderSingleMovie(false));
   } else {
     console.log("Single Movie error", response.problem);
   }
