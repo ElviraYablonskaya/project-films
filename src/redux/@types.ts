@@ -1,3 +1,5 @@
+import { MoviesListType } from "../@types";
+
 export type PayloadWithDataAndCallback<Data> = {
   data: Data;
   callback: () => void;
@@ -104,5 +106,10 @@ export type SingleMovieData = {
 
 export type SingleMovieResponseData = {
   title: SingleMovieData;
+  status: string;
+};
+
+export type RelatedMovieListResponse = {
+  titles: MoviesListType;
   status: string;
 };

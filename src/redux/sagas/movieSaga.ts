@@ -1,17 +1,20 @@
 import { ApiResponse } from "apisauce";
-import { all, takeLatest, call, put } from "redux-saga/effects";
+import { all, takeLatest, call, put, delay } from "redux-saga/effects";
 import API from "../../utils/api";
 import {
   getAllMovies,
+  getRelatedMovieList,
   getSingleMovie,
   setAllMovies,
   setLoaderAllMovies,
+  setLoaderRelatedMovies,
   setLoaderSingleMovie,
+  setRelatedMovieList,
   setSingleMovie,
 } from "../reducers/movieSlice";
 import { MoviesListType } from "../../@types";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { SingleMovieResponseData } from "../@types";
+import { RelatedMovieListResponse, SingleMovieResponseData } from "../@types";
 import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 
 function* getMoviesWorker(action: PayloadAction<string>) {
@@ -46,9 +49,28 @@ function* getSingleMovieWorker(action: PayloadAction<string>) {
   }
 }
 
+function* getRelatedListMovieWorker(action: PayloadAction<string>) {
+  yield put(setLoaderRelatedMovies(true));
+  yield delay(1000);
+  const id = action.payload;
+  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+  const response: ApiResponse<RelatedMovieListResponse> = yield call(
+    API.getRelatedListMovie,
+    accessToken,
+    id
+  );
+  if (response.ok && response.data) {
+    yield put(setRelatedMovieList(response.data.titles));
+    yield put(setLoaderRelatedMovies(false));
+  } else {
+    console.log("Related Movie error", response.problem);
+  }
+}
+
 export default function* moviesSagaWatcher() {
   yield all([
     takeLatest(getAllMovies, getMoviesWorker),
     takeLatest(getSingleMovie, getSingleMovieWorker),
+    takeLatest(getRelatedMovieList, getRelatedListMovieWorker),
   ]);
 }

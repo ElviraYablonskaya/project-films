@@ -1,9 +1,6 @@
 @import "src/styles/colors";
 
 .loader {
-  margin: 0 auto;
-}
-.loader {
   svg path {
     stroke: $primary;
   }

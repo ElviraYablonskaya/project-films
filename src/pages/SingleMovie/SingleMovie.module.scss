@@ -138,3 +138,17 @@
 .actorsName {
   display: flex;
 }
+
+.relatedCardContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.recommendations {
+  color: $white;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+}

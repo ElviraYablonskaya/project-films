@@ -8,6 +8,8 @@ type InitialState = {
   singleMovie: SingleMovieData | null;
   isLoaderSingleMovie: boolean;
   isLoaderAllMowies: boolean;
+  relatedMovieList: MoviesListType;
+  isLoaderRelatedMovies: boolean;
 };
 
 const initialState: InitialState = {
@@ -15,6 +17,8 @@ const initialState: InitialState = {
   singleMovie: null,
   isLoaderSingleMovie: false,
   isLoaderAllMowies: false,
+  relatedMovieList: [],
+  isLoaderRelatedMovies: false,
 };
 
 const movieSlice = createSlice({
@@ -35,6 +39,13 @@ const movieSlice = createSlice({
     setLoaderSingleMovie: (state, action: PayloadAction<boolean>) => {
       state.isLoaderSingleMovie = action.payload;
     },
+    getRelatedMovieList: (_, __: PayloadAction<string>) => {},
+    setRelatedMovieList: (state, action: PayloadAction<MoviesListType>) => {
+      state.relatedMovieList = action.payload;
+    },
+    setLoaderRelatedMovies: (state, action) => {
+      state.isLoaderRelatedMovies = action.payload;
+    },
   },
 });
 
@@ -45,6 +56,9 @@ export const {
   setSingleMovie,
   setLoaderSingleMovie,
   setLoaderAllMovies,
+  getRelatedMovieList,
+  setRelatedMovieList,
+  setLoaderRelatedMovies,
 } = movieSlice.actions;
 
 export const MovieSelectors = {
@@ -54,6 +68,10 @@ export const MovieSelectors = {
     state.movieReducer.isLoaderSingleMovie,
   getLoaderAllMovies: (state: RootState) =>
     state.movieReducer.isLoaderAllMowies,
+  getRelatedMovieList: (state: RootState) =>
+    state.movieReducer.relatedMovieList,
+  getLoaderRelatedMovies: (state: RootState) =>
+    state.movieReducer.isLoaderRelatedMovies,
 };
 
 export default movieSlice.reducer;

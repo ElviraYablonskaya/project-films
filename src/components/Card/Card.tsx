@@ -6,7 +6,7 @@ import { getRatingColor } from "../../utils/functions";
 
 type CardProps = {
   card: MoviesType;
-  classname?: string;
+  className?: string;
 };
 
 const Card: FC<CardProps> = ({ card }) => {
@@ -16,16 +16,17 @@ const Card: FC<CardProps> = ({ card }) => {
     navigate(`/titles/${card.id}`);
   };
 
-
   return (
     <div className={styles.card}>
       <div>
-        <p
-          className={styles.rating}
-          style={{ backgroundColor: getRatingColor(card.rating) }}
-        >
-          {card.rating}
-        </p>
+        {card.rating && (
+          <p
+            className={styles.rating}
+            style={{ backgroundColor: getRatingColor(card.rating) }}
+          >
+            {card.rating}
+          </p>
+        )}
         <img src={card.poster} alt={card.name} className={styles.image} />
       </div>
       <div>

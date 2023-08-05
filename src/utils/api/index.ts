@@ -37,9 +37,22 @@ const getSingleMovieData = (token: string, id: string) => {
   );
 };
 
+const getRelatedListMovie = (token: string, id: string) => {
+  return API.get(
+    `titles/${id}/related`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
 export default {
   getMovies,
   signUpUser,
   signInUser,
   getSingleMovieData,
+  getRelatedListMovie,
 };
