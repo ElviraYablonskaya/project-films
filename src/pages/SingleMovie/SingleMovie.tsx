@@ -26,6 +26,7 @@ import {
   setSelectedImage,
   setSelectedImageModalOpened,
 } from "../../redux/reducers/imageSlice";
+import ButtonsGroup from "../../components/ButtonsGroup/ButtonsGroup";
 
 const SingleMovie = () => {
   const [activeTab, setActiveTab] = useState<TabsTypes | null>(null);
@@ -117,6 +118,27 @@ const SingleMovie = () => {
     dispatch(setSelectedImage(singleMovie?.poster || ""));
   };
 
+  const handleSave = () => {
+    console.log("Сохранено");
+  };
+
+  const handleShare = () => {
+    console.log("Поделиться");
+  };
+
+  const buttonsGroup = [
+    {
+      title: "save",
+      onClick: handleSave,
+      disabled: false,
+    },
+    {
+      title: "share",
+      onClick: handleShare,
+      disabled: false,
+    },
+  ];
+
   return (
     <div>
       <Header />
@@ -131,15 +153,18 @@ const SingleMovie = () => {
         ) : (
           <div className={styles.singleMovieCard}>
             <SelectedImageModal />
-            {singleMovie?.poster && (
-              <div className={styles.poster}>
-                <img
-                  src={singleMovie?.poster}
-                  alt={singleMovie?.name}
-                  onClick={onPosterClick}
-                />
-              </div>
-            )}
+            <div>
+              {singleMovie?.poster && (
+                <div className={styles.poster}>
+                  <img
+                    src={singleMovie?.poster}
+                    alt={singleMovie?.name}
+                    onClick={onPosterClick}
+                  />
+                </div>
+              )}
+              <ButtonsGroup buttonsGroup={buttonsGroup} />
+            </div>
             <div>
               <div className={styles.genres}>
                 {singleMovie?.genres.map((item) => {

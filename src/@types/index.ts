@@ -52,3 +52,12 @@ export type Tab = {
 export type TabsListType = Tab[];
 
 export type Children = ReactElement | ReactElement[];
+
+type GroupButton = {
+  title: ReactElement | string;
+  link?: string;
+  onClick?: () => void;
+  disabled: boolean;
+};
+
+export type ButtonsGroupList = GroupButton[];

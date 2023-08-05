@@ -2,6 +2,7 @@ import { FC } from "react";
 import { TabsListType, TabsTypes } from "../../@types";
 import styles from "./TabsList.module.scss";
 import Tab from "../Tab";
+import { Outlet } from "react-router-dom";
 
 type TabsListProps = {
   tabsList: TabsListType;
@@ -22,6 +23,12 @@ const TabsList: FC<TabsListProps> = ({ tabsList, activeTab, onTabClick }) => {
           icon={icon}
         />
       ))}
+      <div className={styles.infoContainer}>
+        <Outlet />
+      </div>
+      <div className={styles.footer}>
+        <div>©All Rights Reserved</div>
+      </div>
     </div>
   );
 };

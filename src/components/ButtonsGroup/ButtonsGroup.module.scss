@@ -1,0 +1,17 @@
+@import "src/styles/colors";
+
+.groupButtonsWrapper {
+  display: flex;
+  gap: 1px;
+  cursor: pointer;
+}
+
+.button {
+  background-color: $graphite;
+  padding: 16px 54px;
+  border-radius: 10px;
+  margin-top: 32px;
+  &:hover {
+    background-color: $secondary;
+  }
+}
