@@ -12,7 +12,7 @@ import styles from "./SingleMovie.module.scss";
 import TabsList from "../../components/TabsList/TabsList";
 import { TabsTypes } from "../../@types";
 import { IoMdHome, IoMdSettings } from "react-icons/io";
-import { AiFillFire } from "react-icons/ai";
+import { AiFillFire, AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import {
   formatBudget,
@@ -32,6 +32,21 @@ import Card from "../../components/Card";
 
 const SingleMovie = () => {
   const [activeTab, setActiveTab] = useState<TabsTypes | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const moviesPerPage = 5;
+
+  const handleNextClick = () => {
+    if (currentIndex + moviesPerPage < relatedMovieList.length) {
+      setCurrentIndex((prevIndex) => prevIndex + moviesPerPage);
+    }
+  };
+
+  const handlePrevClick = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prevIndex) => prevIndex - moviesPerPage);
+    }
+  };
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -260,24 +275,39 @@ const SingleMovie = () => {
               </div>
             </div>
           )}
+          {!isLoaderRelatedMovies && relatedMovieList.length > 0 && (
           <div className={styles.relatedContainer}>
             <h2 className={styles.recommendations}>Recommendations</h2>
-            {isLoaderRelatedMovies ? (
-              <Loader />
-            ) : (
+            <div className={styles.arrowButtons}>
+              <button   type="button" onClick={handlePrevClick} disabled={currentIndex === 0} className={styles.arrowLeft}>
+                <AiOutlineArrowLeft size={22}/>
+              </button>
+              <button
+                type="button"
+              className={styles.arrowRight}
+                onClick={handleNextClick}
+                disabled={
+                  currentIndex + moviesPerPage >= relatedMovieList.length
+                }
+              >
+                <AiOutlineArrowRight size={22} />
+              </button>
+            </div>
               <div className={styles.relatedCardContainer}>
-                {relatedMovieList.map((movie) => {
-                  return (
-                    <Card
-                      card={movie}
-                      key={movie.id}
-                      className={styles.relatedCard}
-                    />
-                  );
-                })}
+                {relatedMovieList
+                  .slice(currentIndex, currentIndex + moviesPerPage)
+                  .map((movie) => {
+                    return (
+                      <Card
+                        card={movie}
+                        key={movie.id}
+                        className={styles.relatedCard}
+                      />
+                    );
+                  })}
               </div>
-            )}
           </div>
+          )}
         </div>
       </div>
     </div>

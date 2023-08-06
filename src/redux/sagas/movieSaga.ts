@@ -1,5 +1,5 @@
 import { ApiResponse } from "apisauce";
-import { all, takeLatest, call, put, delay } from "redux-saga/effects";
+import { all, takeLatest, call, put } from "redux-saga/effects";
 import API from "../../utils/api";
 import {
   getAllMovies,
@@ -51,7 +51,6 @@ function* getSingleMovieWorker(action: PayloadAction<string>) {
 
 function* getRelatedListMovieWorker(action: PayloadAction<string>) {
   yield put(setLoaderRelatedMovies(true));
-  yield delay(1000);
   const id = action.payload;
   const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
   const response: ApiResponse<RelatedMovieListResponse> = yield call(
