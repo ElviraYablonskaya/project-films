@@ -27,7 +27,11 @@ const Card: FC<CardProps> = ({ card }) => {
             {card.rating}
           </p>
         )}
-        <img src={card.poster} alt={card.name} className={styles.image} />
+        {card.poster ? (
+          <img src={card.poster} alt={card.name} className={styles.image} />
+        ) : (
+          <div className={styles.noPoster}>NO POSTER</div>
+        )}
       </div>
       <div>
         <div className={styles.name} onClick={onTitleClick}>

@@ -120,7 +120,7 @@ const SingleMovie = () => {
 
   const directors = getNames("directing");
   const writers = getNames("writing");
-  const actors = getNames("cast");
+  const actors = getNames("actors");
 
   const onPosterClick = () => {
     dispatch(setSelectedImageModalOpened(true));
@@ -164,7 +164,7 @@ const SingleMovie = () => {
             <div className={styles.singleMovieCard}>
               <SelectedImageModal />
               <div>
-                {singleMovie?.poster && (
+                {singleMovie?.poster ? (
                   <div className={styles.poster}>
                     <img
                       src={singleMovie?.poster}
@@ -172,6 +172,8 @@ const SingleMovie = () => {
                       onClick={onPosterClick}
                     />
                   </div>
+                ) : (
+                  <div className={styles.noPoster}>NO POSTER</div>
                 )}
                 <ButtonsGroup buttonsGroup={buttonsGroup} />
               </div>
@@ -185,7 +187,7 @@ const SingleMovie = () => {
                   <div>{singleMovie?.name}</div>
                 </div>
                 <div className={styles.ratingRuntime}>
-                  {singleMovie?.rating && (
+                  {singleMovie?.rating ? (
                     <div
                       style={{
                         backgroundColor: getRatingColor(singleMovie?.rating),
@@ -194,19 +196,22 @@ const SingleMovie = () => {
                     >
                       {singleMovie?.rating}
                     </div>
+                  ) : (
+                    ""
                   )}
-                  {singleMovie?.rating && (
+                  {singleMovie?.rating ? (
                     <div className={styles.ratingImdb}>
                       <FaImdb size={23} />
-                      <span>
-                        {singleMovie?.rating ? singleMovie.rating : 0}
-                      </span>
                     </div>
+                  ) : (
+                    ""
                   )}
-                  {singleMovie?.runtime && (
+                  {singleMovie?.runtime ? (
                     <div className={styles.runtime}>
                       {singleMovie?.runtime} min
                     </div>
+                  ) : (
+                    ""
                   )}
                 </div>
                 <p>{singleMovie?.description}</p>
@@ -223,11 +228,13 @@ const SingleMovie = () => {
                       {formatDate(singleMovie?.release_date)}
                     </div>
                   )}
-                  {singleMovie?.budget && (
+                  {singleMovie?.budget ? (
                     <div>
                       <span className={styles.budget}>BoxOffice</span>
                       {formatBudget(singleMovie?.budget)}
                     </div>
+                  ) : (
+                    ""
                   )}
                   {actors && actors.length > 0 && (
                     <div className={styles.actorsName}>
@@ -238,11 +245,7 @@ const SingleMovie = () => {
                   {directors && directors.length > 0 && (
                     <div className={styles.directorName}>
                       <span className={styles.director}>Director</span>
-                      {directors.map((director, index) => (
-                        <div key={index}>
-                          <span>{director}</span>
-                        </div>
-                      ))}
+                      <span>{directors.join(", ")}</span>
                     </div>
                   )}
                   {writers && writers.length > 0 && (
