@@ -6,7 +6,11 @@ import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 import styles from "./CardList.module.scss";
 import Loader from "../Loader";
 
-const CardList: FC = () => {
+interface CardListProps {
+  isTrendingPage: boolean;
+}
+
+const CardList: FC<CardListProps> = ({ isTrendingPage }) => {
   const dispatch = useDispatch();
   const movies = useSelector(MovieSelectors.getAllMovies);
 
@@ -26,7 +30,9 @@ const CardList: FC = () => {
   ) : (
     <div className={styles.cardContainer}>
       {movies.map((movie) => {
-        return <Card card={movie} key={movie.id} />;
+        return (
+          <Card card={movie} key={movie.id} isTrendingPage={isTrendingPage} />
+        );
       })}
     </div>
   );

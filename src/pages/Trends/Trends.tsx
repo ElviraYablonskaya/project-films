@@ -1,18 +1,36 @@
-import { useMemo, useState } from "react";
-import CardList from "../../components/CardList/CardList";
+import { IoMdHome, IoMdSettings } from "react-icons/io";
 import Header from "../../components/Header";
-import { TabsTypes } from "../../@types";
 import TabsList from "../../components/TabsList/TabsList";
-import styles from "./Home.module.scss";
-import { IoMdHome } from "react-icons/io";
 import { AiFillFire } from "react-icons/ai";
 import { BsFillBookmarkFill } from "react-icons/bs";
-import { IoMdSettings } from "react-icons/io";
+import { TabsTypes } from "../../@types";
+import styles from "./Trends.module.scss";
+import { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { MovieSelectors, getAllMovies } from "../../redux/reducers/movieSlice";
+import Card from "../../components/Card";
+import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
 
-const Home = () => {
-  const [activeTab, setActiveTab] = useState(TabsTypes.Home);
+const Trends = () => {
+  const [activeTab, setActiveTab] = useState(TabsTypes.Trends);
+
+  const dispatch = useDispatch();
+  const movies = useSelector(MovieSelectors.getAllMovies);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+    if (accessToken) {
+      dispatch(getAllMovies(accessToken));
+    } else {
+      console.error("Token not found");
+    }
+  }, []);
+
+  const trendingMovie = movies.filter((movie) => movie.rating >= 7);
+  const isLoaderAllMovies = useSelector(MovieSelectors.getLoaderAllMovies);
 
   const tabsList = useMemo(
     () => [
@@ -75,10 +93,25 @@ const Home = () => {
           activeTab={activeTab}
           onTabClick={onTabClick}
         />
-        <CardList />
+        {isLoaderAllMovies ? (
+          <Loader />
+        ) : (
+          <div className={styles.cardContainer}>
+            {trendingMovie.map((movie) => {
+              return (
+                <Card
+                  card={movie}
+                  key={movie.id}
+                  isTrendingPage={true}
+                  ratingIcon={<AiFillFire />}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Trends;

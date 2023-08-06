@@ -27,7 +27,6 @@
 
 .singleMovieCard {
   display: flex;
-  align-items: flex-start;
   gap: 20px;
   color: $white;
   margin: 10px;
@@ -142,16 +141,11 @@
 .relatedCardContainer {
   display: flex;
   flex-wrap: wrap;
-  height: 400px; 
+  height: 400px;
 }
 
 .recommendations {
   color: $white;
-}
-
-.contentContainer {
-  display: flex;
-  flex-direction: column;
 }
 
 .noPoster {
@@ -167,7 +161,7 @@
   justify-content: end;
   margin-right: 25px;
   margin-bottom: 10px;
-  gap:15px;
+  gap: 15px;
   :disabled {
     color: $light;
     cursor: not-allowed;
@@ -186,4 +180,8 @@
   background: none;
   color: $white;
   cursor: pointer;
+}
+
+.loaderContainer {
+  margin-left: 530px;
 }

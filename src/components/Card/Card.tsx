@@ -7,9 +7,16 @@ import { getRatingColor } from "../../utils/functions";
 type CardProps = {
   card: MoviesType;
   className?: string;
+  isTrendingPage?: boolean;
+  ratingIcon?: React.ReactElement
 };
 
-const Card: FC<CardProps> = ({ card }) => {
+const Card: FC<CardProps> = ({ card, isTrendingPage,ratingIcon}) => {
+  const ratingColor =
+    isTrendingPage && card.rating >= 7
+      ? "#7B61FF"
+      : getRatingColor(card.rating);
+
   const navigate = useNavigate();
 
   const onTitleClick = () => {
@@ -19,14 +26,11 @@ const Card: FC<CardProps> = ({ card }) => {
   return (
     <div className={styles.card}>
       <div>
-        {card.rating && (
-          <p
-            className={styles.rating}
-            style={{ backgroundColor: getRatingColor(card.rating) }}
-          >
-            {card.rating}
+        {card.rating ? (
+          <p className={styles.rating} style={{ backgroundColor: ratingColor }}>
+            {ratingIcon} {card.rating}
           </p>
-        )}
+        ): ""}
         {card.poster ? (
           <img src={card.poster} alt={card.name} className={styles.image} />
         ) : (

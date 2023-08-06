@@ -12,7 +12,11 @@ import styles from "./SingleMovie.module.scss";
 import TabsList from "../../components/TabsList/TabsList";
 import { TabsTypes } from "../../@types";
 import { IoMdHome, IoMdSettings } from "react-icons/io";
-import { AiFillFire, AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import {
+  AiFillFire,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+} from "react-icons/ai";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import {
   formatBudget,
@@ -82,33 +86,24 @@ const SingleMovie = () => {
   );
 
   const onTabClick = (tab: TabsTypes) => () => {
-    if (tab === TabsTypes.Home) {
-      navigate(`/`);
-    } else {
-      setActiveTab(tab);
+    switch (tab) {
+      case TabsTypes.Home:
+        navigate(`/`);
+        break;
+      case TabsTypes.Trends:
+        navigate(`/trends`);
+        break;
+      case TabsTypes.Favorites:
+        navigate(`/favorites`);
+        break;
+      case TabsTypes.Settings:
+        navigate(`/settings`);
+        break;
+      default:
+        setActiveTab(tab);
+        break;
     }
   };
-
-  // const onTabClick = (tab: TabsTypes) => () => {
-  //   switch (tab) {
-  //     case TabsTypes.Home:
-  //       navigate(`/`);
-  //       break;
-  //     case TabsTypes.Trends:
-  //       navigate(`/trends`);
-  //       break;
-  //     case TabsTypes.Favorites:
-  //       navigate(`/favorites`);
-  //       break;
-  //     case TabsTypes.Settings:
-  //       navigate(`/settings`);
-  //       break;
-  //     default:
-  //       setActiveTab(tab);
-  //       break;
-  //   }
-  // };
-
   const singleMovie = useSelector(MovieSelectors.getSingleMovie);
   const isLoaderSingleMovie = useSelector(MovieSelectors.getLoaderSingleMovie);
   const relatedMovieList = useSelector(MovieSelectors.getRelatedMovieList);
@@ -172,9 +167,11 @@ const SingleMovie = () => {
           activeTab={activeTab!}
           onTabClick={onTabClick}
         />
-        <div className={styles.contentContainer}>
+        <div>
           {isLoaderSingleMovie ? (
-            <Loader />
+            <div className={styles.loaderContainer}>
+              <Loader />
+            </div>
           ) : (
             <div className={styles.singleMovieCard}>
               <SelectedImageModal />
@@ -276,23 +273,28 @@ const SingleMovie = () => {
             </div>
           )}
           {!isLoaderRelatedMovies && relatedMovieList.length > 0 && (
-          <div className={styles.relatedContainer}>
-            <h2 className={styles.recommendations}>Recommendations</h2>
-            <div className={styles.arrowButtons}>
-              <button   type="button" onClick={handlePrevClick} disabled={currentIndex === 0} className={styles.arrowLeft}>
-                <AiOutlineArrowLeft size={22}/>
-              </button>
-              <button
-                type="button"
-              className={styles.arrowRight}
-                onClick={handleNextClick}
-                disabled={
-                  currentIndex + moviesPerPage >= relatedMovieList.length
-                }
-              >
-                <AiOutlineArrowRight size={22} />
-              </button>
-            </div>
+            <div className={styles.relatedContainer}>
+              <h2 className={styles.recommendations}>Recommendations</h2>
+              <div className={styles.arrowButtons}>
+                <button
+                  type="button"
+                  onClick={handlePrevClick}
+                  disabled={currentIndex === 0}
+                  className={styles.arrowLeft}
+                >
+                  <AiOutlineArrowLeft size={22} />
+                </button>
+                <button
+                  type="button"
+                  className={styles.arrowRight}
+                  onClick={handleNextClick}
+                  disabled={
+                    currentIndex + moviesPerPage >= relatedMovieList.length
+                  }
+                >
+                  <AiOutlineArrowRight size={22} />
+                </button>
+              </div>
               <div className={styles.relatedCardContainer}>
                 {relatedMovieList
                   .slice(currentIndex, currentIndex + moviesPerPage)
@@ -306,7 +308,7 @@ const SingleMovie = () => {
                     );
                   })}
               </div>
-          </div>
+            </div>
           )}
         </div>
       </div>
