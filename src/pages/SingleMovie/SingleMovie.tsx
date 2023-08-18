@@ -4,13 +4,13 @@ import {
   MovieSelectors,
   getRelatedMovieList,
   getSingleMovie,
+  setSaveStatus,
 } from "../../redux/reducers/movieSlice";
 import { useEffect, useMemo, useState } from "react";
-import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 import Header from "../../components/Header";
 import styles from "./SingleMovie.module.scss";
 import TabsList from "../../components/TabsList/TabsList";
-import { TabsTypes } from "../../@types";
+import { TabsTypes, Theme } from "../../@types";
 import { IoMdHome, IoMdSettings } from "react-icons/io";
 import {
   AiFillFire,
@@ -19,12 +19,11 @@ import {
 } from "react-icons/ai";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import {
-  formatBudget,
   formatDate,
+  formatRuntime,
   getRatingColor,
 } from "../../utils/functions";
 import { FaImdb } from "react-icons/fa";
-import { SingleMovieCredits } from "../../redux/@types";
 import Loader from "../../components/Loader";
 import SelectedImageModal from "./SelectedImageModal/SelectedImageModal";
 import {
@@ -32,10 +31,13 @@ import {
   setSelectedImageModalOpened,
 } from "../../redux/reducers/imageSlice";
 import ButtonsGroup from "../../components/ButtonsGroup/ButtonsGroup";
+import { useThemeContext } from "../../context/Theme";
+import classNames from "classnames";
 import Card from "../../components/Card";
 
 const SingleMovie = () => {
   const [activeTab, setActiveTab] = useState<TabsTypes | null>(null);
+  const { themeValue } = useThemeContext();
   const [currentIndex, setCurrentIndex] = useState(0);
   const moviesPerPage = 5;
 
@@ -107,38 +109,33 @@ const SingleMovie = () => {
   const singleMovie = useSelector(MovieSelectors.getSingleMovie);
   const isLoaderSingleMovie = useSelector(MovieSelectors.getLoaderSingleMovie);
   const relatedMovieList = useSelector(MovieSelectors.getRelatedMovieList);
+
   const isLoaderRelatedMovies = useSelector(
     MovieSelectors.getLoaderRelatedMovies
   );
 
+  const savedPosts = useSelector(MovieSelectors.getSavePosts);
+
+  const isMovieSaved = savedPosts.some(
+    (post) => post.id === String(singleMovie?.id)
+  );
+
   useEffect(() => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
-    if (accessToken && id) {
+    if (id) {
       dispatch(getSingleMovie(id));
-      dispatch(getRelatedMovieList(id));
-    } else {
-      console.error("Token not found");
+      dispatch(getRelatedMovieList("top_rated_series_250"));
     }
   }, [dispatch, id]);
 
-  const getNames = (department: string) => {
-    const data = singleMovie?.credits.filter(
-      (item: SingleMovieCredits) => item.pivot.department === department
-    );
-    return data?.map((item) => item.name) || [];
-  };
-
-  const directors = getNames("directing");
-  const writers = getNames("writing");
-  const actors = getNames("actors");
-
   const onPosterClick = () => {
     dispatch(setSelectedImageModalOpened(true));
-    dispatch(setSelectedImage(singleMovie?.poster || ""));
+    dispatch(setSelectedImage(singleMovie?.primaryImage.url || ""));
   };
 
   const handleSave = () => {
-    console.log("Сохранено");
+    if (singleMovie) {
+      dispatch(setSaveStatus({ card: singleMovie }));
+    }
   };
 
   const handleShare = () => {
@@ -150,6 +147,7 @@ const SingleMovie = () => {
       title: "save",
       onClick: handleSave,
       disabled: false,
+      active: isMovieSaved,
     },
     {
       title: "share",
@@ -159,7 +157,12 @@ const SingleMovie = () => {
   ];
 
   return (
-    <div>
+    <div
+      className={classNames(styles.lightThemeContainer, {
+        [styles.lightContainer]: themeValue === Theme.Light,
+        [styles.darkContainer]: themeValue === Theme.Dark,
+      })}
+    >
       <Header />
       <div className={styles.tabsCard}>
         <TabsList
@@ -176,96 +179,99 @@ const SingleMovie = () => {
             <div className={styles.singleMovieCard}>
               <SelectedImageModal />
               <div>
-                {singleMovie?.poster ? (
+                {singleMovie?.primaryImage ? (
                   <div className={styles.poster}>
                     <img
-                      src={singleMovie?.poster}
-                      alt={singleMovie?.name}
+                      src={singleMovie?.primaryImage.url}
+                      alt={singleMovie?.originalTitleText.text}
                       onClick={onPosterClick}
                     />
                   </div>
                 ) : (
-                  <div className={styles.noPoster}>NO POSTER</div>
+                  <div
+                    className={classNames(styles.noPoster, {
+                      [styles.lightNoPoster]: themeValue === Theme.Light,
+                    })}
+                  >
+                    NO POSTER
+                  </div>
                 )}
                 <ButtonsGroup buttonsGroup={buttonsGroup} />
               </div>
               <div>
-                <div className={styles.genres}>
-                  {singleMovie?.genres.map((item) => {
-                    return <div key={item.id}>{item.display_name}</div>;
+                {singleMovie?.genres && (
+                  <div className={styles.genres}>
+                    {singleMovie?.genres.genres.map(
+                      (item: { text: string; id: string }) => (
+                        <div key={item.id}>{item.text}</div>
+                      )
+                    )}
+                  </div>
+                )}
+                <div
+                  className={classNames(styles.name, {
+                    [styles.lightName]: themeValue === Theme.Light,
                   })}
-                </div>
-                <div className={styles.name}>
-                  <div>{singleMovie?.name}</div>
+                >
+                  <div>{singleMovie?.originalTitleText.text}</div>
                 </div>
                 <div className={styles.ratingRuntime}>
-                  {singleMovie?.rating ? (
+                  {singleMovie?.ratingsSummary?.aggregateRating && (
                     <div
                       style={{
-                        backgroundColor: getRatingColor(singleMovie?.rating),
+                        backgroundColor: getRatingColor(
+                          singleMovie?.ratingsSummary.aggregateRating
+                        ),
                       }}
                       className={styles.rating}
                     >
-                      {singleMovie?.rating}
+                      {singleMovie?.ratingsSummary.aggregateRating}
                     </div>
-                  ) : (
-                    ""
                   )}
-                  {singleMovie?.rating ? (
+                  {singleMovie?.ratingsSummary?.aggregateRating && (
                     <div className={styles.ratingImdb}>
                       <FaImdb size={23} />
+                      {singleMovie?.ratingsSummary?.aggregateRating}
                     </div>
-                  ) : (
-                    ""
                   )}
-                  {singleMovie?.runtime ? (
+                  {singleMovie?.runtime && (
                     <div className={styles.runtime}>
-                      {singleMovie?.runtime} min
+                      {formatRuntime(singleMovie?.runtime.seconds || 0)}
                     </div>
-                  ) : (
-                    ""
                   )}
                 </div>
-                <p>{singleMovie?.description}</p>
+                <div
+                  className={classNames(styles.description, {
+                    [styles.lightDescription]: themeValue === Theme.Light,
+                  })}
+                >
+                  {singleMovie?.plot && (
+                    <p>{singleMovie?.plot.plotText.plainText}</p>
+                  )}
+                </div>
                 <div className={styles.movieTotal}>
-                  {singleMovie?.year && (
+                  {singleMovie?.releaseYear && (
                     <div>
                       <span className={styles.year}>Year</span>
-                      {singleMovie?.year}
+                      <span
+                        className={classNames(styles.releaseYear, {
+                          [styles.lightReleaseYear]: themeValue === Theme.Light,
+                        })}
+                      >
+                        {singleMovie?.releaseYear.year}
+                      </span>
                     </div>
                   )}
-                  {singleMovie?.release_date && (
+                  {singleMovie?.releaseDate && (
                     <div>
                       <span className={styles.released}>Released</span>
-                      {formatDate(singleMovie?.release_date)}
-                    </div>
-                  )}
-                  {singleMovie?.budget ? (
-                    <div>
-                      <span className={styles.budget}>BoxOffice</span>
-                      {formatBudget(singleMovie?.budget)}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  {actors && actors.length > 0 && (
-                    <div className={styles.actorsName}>
-                      <span className={styles.actors}>Actors</span>
-                      <span>{actors.join(", ")}</span>
-                    </div>
-                  )}
-                  {directors && directors.length > 0 && (
-                    <div className={styles.directorName}>
-                      <span className={styles.director}>Director</span>
-                      <span>{directors.join(", ")}</span>
-                    </div>
-                  )}
-                  {writers && writers.length > 0 && (
-                    <div className={styles.writersNames}>
-                      <span className={styles.writers}>Writers</span>
-                      <div>
-                        <span>{writers.join(", ")}</span>
-                      </div>
+                      <span
+                        className={classNames(styles.releaseDate, {
+                          [styles.lightReleaseDate]: themeValue === Theme.Light,
+                        })}
+                      >
+                        {formatDate(singleMovie?.releaseDate)}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -274,19 +280,29 @@ const SingleMovie = () => {
           )}
           {!isLoaderRelatedMovies && relatedMovieList.length > 0 && (
             <div className={styles.relatedContainer}>
-              <h2 className={styles.recommendations}>Recommendations</h2>
+              <h2
+                className={classNames(styles.recommendations, {
+                  [styles.lightRecommendations]: themeValue === Theme.Light,
+                })}
+              >
+                Recommendations
+              </h2>
               <div className={styles.arrowButtons}>
                 <button
                   type="button"
                   onClick={handlePrevClick}
                   disabled={currentIndex === 0}
-                  className={styles.arrowLeft}
+                  className={classNames(styles.arrowLeft, {
+                    [styles.lightArrowLeft]: themeValue === Theme.Light,
+                  })}
                 >
                   <AiOutlineArrowLeft size={22} />
                 </button>
                 <button
                   type="button"
-                  className={styles.arrowRight}
+                  className={classNames(styles.arrowRight, {
+                    [styles.lightArrowRight]: themeValue === Theme.Light,
+                  })}
                   onClick={handleNextClick}
                   disabled={
                     currentIndex + moviesPerPage >= relatedMovieList.length

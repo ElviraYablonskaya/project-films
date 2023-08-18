@@ -30,6 +30,7 @@
   gap: 20px;
   color: $white;
   margin: 10px;
+  margin-bottom: 90px;
 }
 
 .name {
@@ -76,6 +77,10 @@
   margin-bottom: 30px;
 }
 
+.lightDescription {
+  color: $graphite;
+}
+
 .rating {
   color: $white;
   border-radius: 5px;
@@ -99,43 +104,12 @@
 
 .year {
   color: $light;
-  margin-right: 103px;
+  margin-right: 100px;
 }
 
 .released {
   color: $light;
   margin-right: 67px;
-}
-
-.budget {
-  color: $light;
-  margin-right: 64px;
-}
-
-.director {
-  color: $light;
-  margin-right: 75px;
-}
-
-.directorName {
-  display: flex;
-}
-
-.writers {
-  color: $light;
-  margin-right: 79px;
-}
-
-.writersNames {
-  display: flex;
-}
-
-.actors {
-  color: $light;
-  margin-right: 87px;
-}
-.actorsName {
-  display: flex;
 }
 
 .relatedCardContainer {
@@ -146,6 +120,10 @@
 
 .recommendations {
   color: $white;
+}
+
+.lightRecommendations {
+  color: $dark;
 }
 
 .noPoster {
@@ -175,13 +153,45 @@
   cursor: pointer;
 }
 
+.lightArrowLeft {
+  color: $dark;
+}
+
 .arrowRight {
   border: none;
   background: none;
   color: $white;
   cursor: pointer;
 }
+.lightArrowRight {
+  color: $dark;
+}
 
 .loaderContainer {
   margin-left: 530px;
+}
+
+.lightContainer {
+  background-color: $white;
+}
+
+.darkContainer {
+  background-color: $black;
+  height: 310vh;
+}
+
+.lightName {
+  color: $graphite;
+}
+
+.lightNoPoster {
+  color: $graphite;
+}
+
+.lightReleaseDate {
+  color: $graphite;
+}
+
+.lightReleaseYear {
+  color: $graphite;
 }

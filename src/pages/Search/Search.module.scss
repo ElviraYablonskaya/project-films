@@ -1,0 +1,38 @@
+@import "src/styles/colors";
+
+.tabsCard {
+  display: flex;
+  margin-left: 30px;
+}
+
+.icon {
+  margin-right: 10px;
+  padding-top: 25px;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.emptySearch {
+  color: gray;
+  margin-left: 540px;
+}
+
+.empty {
+  display: flex;
+  margin-top: 10px;
+}
+
+.lightContainer {
+  background-color: $white;
+  height: 180vh;
+}
+
+.darkContainer {
+  background-color: $black;
+  height: 350vh;
+}

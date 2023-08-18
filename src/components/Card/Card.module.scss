@@ -1,7 +1,8 @@
 @import "src/styles/colors";
 
 .card {
-  margin: 10px;
+  position: relative;
+  margin: 15px;
   flex: 1;
 }
 
@@ -11,6 +12,7 @@
   border-radius: 5px;
   padding: 2px 8px;
   margin-left: 10px;
+  margin-top: 20px;
 }
 
 .image {
@@ -41,7 +43,52 @@
   color: $white;
   display: flex;
   justify-content: end;
-  margin-bottom: 253px;
-  margin-top:30px;
+  margin-bottom: 280px;
   width: 160px;
+}
+
+.lightName {
+  color: $graphite;
+}
+
+.lightNoPoster {
+  color: $graphite;
+}
+
+.savedIndicator {
+  position: absolute;
+  top: 20px;
+  margin-left: 150px;
+  font-size: 20px;
+  background-color: $graphite;
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+.genres {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  > div {
+    position: relative;
+    color: $light;
+    font-weight: 500;
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: 4px;
+      width: 4px;
+      background-color: $light;
+      border-radius: 50%;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &:last-child::before {
+      display: none;
+    }
+  }
 }

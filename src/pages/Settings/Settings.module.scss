@@ -1,0 +1,135 @@
+@import "src/styles/colors";
+
+.icon {
+  margin-right: 10px;
+  padding-top: 25px;
+}
+
+.tabsCard {
+  display: flex;
+  margin-left: 30px;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.profileContainer {
+  background-color: $dark;
+  padding-left: 50px;
+  padding-bottom: 50px;
+  padding-right: 50px;
+  border-radius: 10px;
+  width: 145vh;
+  margin-bottom: 40px;
+}
+
+.inputs {
+  display: flex;
+  gap: 40px;
+}
+
+.passwordContainer {
+  background-color: $dark;
+  padding-left: 50px;
+  padding-bottom: 50px;
+  padding-right: 50px;
+  border-radius: 10px;
+  width: 145vh;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile {
+  color: $white;
+}
+
+.password {
+  color: $white;
+}
+
+.colorMode {
+  color: $white;
+}
+
+.colorModeContainer {
+  background-color: $dark;
+  padding: 40px;
+  border-radius: 10px;
+  margin-bottom: 48px;
+}
+
+.darkTheme {
+  color: $white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.passwords {
+  display: flex;
+  flex-direction: column;
+}
+
+.rightPasswords {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.largeInput {
+  width: 65vh;
+  height: 40px;
+  font-size: 16px;
+  padding: 18px 20px;
+}
+.newPassword {
+  margin-bottom: 25px;
+}
+
+.inputName,
+.inputEmail,
+.password,
+.newPassword,
+.confirmPassword {
+  margin-top: 10px;
+}
+
+.dark {
+  color: $white;
+  margin-bottom: 10px;
+}
+
+.useDark {
+  color: $light;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.lightContainer {
+  background-color: $white;
+}
+
+.darkContainer {
+  background-color: $black;
+}
+
+.lightProfile {
+  color: $graphite;
+}
+
+.lightPassword {
+  color: $graphite;
+}
+
+.lightColorMode {
+  color: $graphite;
+}

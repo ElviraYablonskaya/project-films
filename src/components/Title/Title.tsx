@@ -2,6 +2,8 @@ import classNames from "classnames";
 import { FC } from "react";
 
 import styles from "./Title.module.scss";
+import { useThemeContext } from "../../context/Theme";
+import { Theme } from "../../@types";
 
 type TitleProps = {
   title: string;
@@ -16,12 +18,13 @@ const Title: FC<TitleProps> = ({
   firstColor,
   secondColor,
 }) => {
+  const { themeValue } = useThemeContext();
   const titleStyle = {
     color: firstColor,
   };
 
   const emaStyle = {
-    color: secondColor || firstColor,
+    color: themeValue === Theme.Light ? "#000000" : secondColor || firstColor,
   };
 
   return (

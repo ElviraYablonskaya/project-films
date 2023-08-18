@@ -1,22 +1,25 @@
-import { useMemo, useState } from "react";
-import CardList from "../../components/CardList/CardList";
+import { IoMdHome, IoMdSettings } from "react-icons/io";
 import Header from "../../components/Header";
-import { TabsTypes, Theme } from "../../@types";
 import TabsList from "../../components/TabsList/TabsList";
-import styles from "./Home.module.scss";
-import { IoMdHome } from "react-icons/io";
 import { AiFillFire } from "react-icons/ai";
 import { BsFillBookmarkFill } from "react-icons/bs";
-import { IoMdSettings } from "react-icons/io";
+import { TabsTypes, Theme } from "../../@types";
+import styles from "./Favorites.module.scss";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useThemeContext } from "../../context/Theme";
 import classNames from "classnames";
+import { MovieSelectors } from "../../redux/reducers/movieSlice";
+import { useSelector } from "react-redux";
+import Card from "../../components/Card/Card";
+import { ImFilesEmpty } from "react-icons/im";
 
-const Home = () => {
-  const [activeTab, setActiveTab] = useState(TabsTypes.Home);
+const Favorites = () => {
+  const [activeTab, setActiveTab] = useState(TabsTypes.Favorites);
+  const { themeValue } = useThemeContext();
   const navigate = useNavigate();
 
-  const { themeValue } = useThemeContext();
+  const savedPosts = useSelector(MovieSelectors.getSavePosts);
 
   const tabsList = useMemo(
     () => [
@@ -84,10 +87,21 @@ const Home = () => {
           activeTab={activeTab}
           onTabClick={onTabClick}
         />
-        <CardList />
+        <div className={styles.cards}>
+          {savedPosts.length > 0 ? (
+            savedPosts.map((post) => (
+              <Card key={post.id} card={post} saved={true} />
+            ))
+          ) : (
+            <div className={styles.emptyFavorites}>
+              <ImFilesEmpty size={90} />
+              <span className={styles.empty}>Empty favorites</span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default Home;
+export default Favorites;

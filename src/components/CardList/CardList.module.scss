@@ -1,6 +1,13 @@
 .cardContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; 
-    justify-content: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.buttonShow {
+  margin: 0 auto;
+  margin-top: 50px;
+  text-align: center;
+  width: 40%;
 }

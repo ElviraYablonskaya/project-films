@@ -63,45 +63,54 @@ export type SingleMovieCredits = {
 
 export type SingleMovieData = {
   id: number;
-  name: string;
-  type: string;
-  release_date: string;
-  year: number;
-  description: string;
-  genre: null;
-  tagline: string;
-  poster: string;
-  backdrop: string;
-  runtime: number;
-  trailer: null;
-  budget: number;
-  revenue: number;
-  views: number;
-  popularity: number;
-  imdb_id: string;
-  tmdb_id: number;
-  season_count: number;
-  fully_synced: boolean;
-  allow_update: boolean;
-  created_at: string;
-  updated_at: string;
-  language: string;
-  country: null;
-  original_title: string;
-  affiliate_link: null;
-  certification: string;
-  episode_count: number;
-  series_ended: boolean;
-  is_series: boolean;
-  show_videos: boolean;
-  adult: boolean;
-  rating: number;
-  model_type: string;
-  vote_count: number;
-  images: SingleMovieImage[];
-  genres: SingleMovieGenres[];
-  seasons: [];
-  credits: SingleMovieCredits[];
+  genres: {
+    genres: {
+      text: string;
+    };
+  };
+  runtime: {
+    seconds: number;
+  };
+  plot: {
+    plotText: {
+      plainText: string;
+    };
+  };
+  ratingsSummary?: {
+    aggregateRating: number;
+  };
+  originalTitleText: {
+    text: string;
+    __typename: string;
+  };
+  primaryImage: {
+    id: number;
+    width: number;
+    height: number;
+    url: string;
+    __typename: string;
+  };
+  caption: {
+    plainText: string;
+    __typename: string;
+  };
+  releaseDate: {
+    day: number;
+    month: number;
+    year: number;
+  };
+  releaseYear: {
+    year: number;
+    endYear: number;
+    __typename: string;
+  };
+  titleType: {
+    text: string;
+    id: string;
+    isSeries: boolean;
+    isEpisode: boolean;
+    __typename: string;
+  };
 };
 
 export type SingleMovieResponseData = {
@@ -113,3 +122,11 @@ export type RelatedMovieListResponse = {
   titles: MoviesListType;
   status: string;
 };
+
+export type RatingData = {
+  tconst: string;
+  averageRating: number;
+  numVotes: number;
+};
+
+export type RatingDataType = RatingData[];

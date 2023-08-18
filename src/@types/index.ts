@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+// import { RatingDataType } from "../redux/@types";
 
 export enum ButtonTypes {
   Primary = "primary",
@@ -7,31 +8,46 @@ export enum ButtonTypes {
 }
 
 export type MoviesType = {
-  id: number;
-  name: string;
-  type: string;
-  release_date?: string;
-  year?: string;
-  tagline?: string;
-  genre: string;
-  poster: string;
-  backdrop?: string;
-  runtime?: number;
-  budget?: number;
-  revenue?: number;
-  popularity?: number;
-  tmdb_id?: number;
-  imdb_id?: string;
-  is_series?: boolean;
-  adult?: boolean;
-  season_count?: number;
-  episode_count?: number;
-  series_ended?: boolean;
-  language?: string;
-  original_title?: string;
-  certification?: string;
-  rating: number;
-  vote_count?: number;
+  tconst?: string;
+  genres: {
+    genres: {
+      text: string;
+    };
+  };
+  ratingsSummary: {
+    aggregateRating: number;
+  };
+  saved?: boolean;
+  page?: number;
+  id: string;
+  originalTitleText: {
+    text: string;
+    __typename: string;
+  };
+  primaryImage: {
+    id: number;
+    width: number;
+    height: number;
+    url: string;
+    __typename: string;
+  };
+  caption: {
+    plainText: string;
+    __typename: string;
+  };
+  releaseDate: number;
+  releaseYear: {
+    year: number;
+    endYear: number;
+    __typename: string;
+  };
+  titleType: {
+    text: string;
+    id: string;
+    isSeries: boolean;
+    isEpisode: boolean;
+    __typename: string;
+  };
 };
 
 export type MoviesListType = MoviesType[];
@@ -58,6 +74,12 @@ type GroupButton = {
   link?: string;
   onClick?: () => void;
   disabled: boolean;
+  active?: boolean;
 };
 
 export type ButtonsGroupList = GroupButton[];
+
+export enum Theme {
+  Light = "light",
+  Dark = "dark",
+}

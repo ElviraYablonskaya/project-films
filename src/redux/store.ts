@@ -4,6 +4,7 @@ import rootSaga from "./sagas/rootSaga";
 import movieReducer from "./reducers/movieSlice";
 import authReducer from "./reducers/authSlice";
 import imageReducer from "./reducers/imageSlice";
+import themeReducer from "./reducers/themeSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -12,6 +13,7 @@ const store = configureStore({
     movieReducer,
     authReducer,
     imageReducer,
+    themeReducer,
   },
   middleware: [sagaMiddleware],
 });

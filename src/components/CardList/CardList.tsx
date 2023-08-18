@@ -1,39 +1,42 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { MovieSelectors, getAllMovies } from "../../redux/reducers/movieSlice";
-import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 import styles from "./CardList.module.scss";
 import Loader from "../Loader";
+import Button from "../Button";
+import { ButtonTypes } from "../../@types";
 
-interface CardListProps {
-  isTrendingPage: boolean;
-}
-
-const CardList: FC<CardListProps> = ({ isTrendingPage }) => {
+const CardList = () => {
   const dispatch = useDispatch();
+
   const movies = useSelector(MovieSelectors.getAllMovies);
+  const isLoaderAllMovies = useSelector(MovieSelectors.getLoaderAllMovies);
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
-    if (accessToken) {
-      dispatch(getAllMovies(accessToken));
-    } else {
-      console.error("Token not found");
-    }
+    dispatch(getAllMovies(currentPage));
   }, []);
 
-  const isLoaderAllMovies = useSelector(MovieSelectors.getLoaderAllMovies);
+  const handleLoadMore = () => {
+    dispatch(getAllMovies({ page: currentPage + 1 } as any));
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
   return isLoaderAllMovies ? (
     <Loader />
   ) : (
     <div className={styles.cardContainer}>
-      {movies.map((movie) => {
-        return (
-          <Card card={movie} key={movie.id} isTrendingPage={isTrendingPage} />
-        );
-      })}
+      {movies.map((movie) => (
+        <Card card={movie} key={movie.id} saved={false} />
+      ))}
+      <Button
+        type={ButtonTypes.Secondary}
+        title={"Show more"}
+        onClick={handleLoadMore}
+        className={styles.buttonShow}
+      />
     </div>
   );
 };

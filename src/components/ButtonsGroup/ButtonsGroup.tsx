@@ -2,7 +2,7 @@ import { FC } from "react";
 import { ButtonsGroupList } from "../../@types";
 import classNames from "classnames";
 import styles from "./ButtonsGroup.module.scss";
-import { BsFillBookmarkFill } from "react-icons/bs";
+import { BsBookmark, BsFillBookmarkFill } from "react-icons/bs";
 import { BiShareAlt } from "react-icons/bi";
 
 type ButtonsGroupProps = {
@@ -24,7 +24,19 @@ const ButtonsGroup: FC<ButtonsGroupProps> = ({ buttonsGroup, disabled }) => {
             className={styles.button}
             onClick={item.onClick}
           >
-            {item.title === "save" && !item.disabled && <BsFillBookmarkFill />}
+            {item.title === "save" && !item.disabled && (
+              <span
+                className={classNames({
+                  [styles.purpleBookmark]: item.active, // Применяем стиль, если кнопка активна
+                })}
+              >
+                {item.active ? (
+                  <BsFillBookmarkFill color="#7B61FF" />
+                ) : (
+                  <BsBookmark />
+                )}
+              </span>
+            )}
             {item.title === "share" && !item.disabled && <BiShareAlt />}
           </div>
         );

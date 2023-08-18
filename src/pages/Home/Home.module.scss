@@ -1,3 +1,5 @@
+@import "src/styles/colors";
+
 .tabsCard {
   display: flex;
   margin-left: 30px;
@@ -6,4 +8,13 @@
 .icon {
   margin-right: 10px;
   padding-top: 25px;
+}
+
+.lightContainer {
+  background-color: white;
+}
+
+.darkContainer {
+  background-color: black;
+  height: 350vh;
 }

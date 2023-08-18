@@ -3,34 +3,18 @@ import Header from "../../components/Header";
 import TabsList from "../../components/TabsList/TabsList";
 import { AiFillFire } from "react-icons/ai";
 import { BsFillBookmarkFill } from "react-icons/bs";
-import { TabsTypes } from "../../@types";
+import { TabsTypes, Theme } from "../../@types";
 import styles from "./Trends.module.scss";
-import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { MovieSelectors, getAllMovies } from "../../redux/reducers/movieSlice";
-import Card from "../../components/Card";
-import { ACCESS_TOKEN_KEY } from "../../utils/constants";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loader from "../../components/Loader";
+import { useThemeContext } from "../../context/Theme";
+import classNames from "classnames";
 
 const Trends = () => {
   const [activeTab, setActiveTab] = useState(TabsTypes.Trends);
+  const { themeValue } = useThemeContext();
 
-  const dispatch = useDispatch();
-  const movies = useSelector(MovieSelectors.getAllMovies);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
-    if (accessToken) {
-      dispatch(getAllMovies(accessToken));
-    } else {
-      console.error("Token not found");
-    }
-  }, []);
-
-  const trendingMovie = movies.filter((movie) => movie.rating >= 7);
-  const isLoaderAllMovies = useSelector(MovieSelectors.getLoaderAllMovies);
 
   const tabsList = useMemo(
     () => [
@@ -83,7 +67,12 @@ const Trends = () => {
   };
 
   return (
-    <div>
+    <div
+      className={classNames(styles.lightThemeContainer, {
+        [styles.lightContainer]: themeValue === Theme.Light,
+        [styles.darkContainer]: themeValue === Theme.Dark,
+      })}
+    >
       <div>
         <Header />
       </div>
@@ -93,22 +82,6 @@ const Trends = () => {
           activeTab={activeTab}
           onTabClick={onTabClick}
         />
-        {isLoaderAllMovies ? (
-          <Loader />
-        ) : (
-          <div className={styles.cardContainer}>
-            {trendingMovie.map((movie) => {
-              return (
-                <Card
-                  card={movie}
-                  key={movie.id}
-                  isTrendingPage={true}
-                  ratingIcon={<AiFillFire />}
-                />
-              );
-            })}
-          </div>
-        )}
       </div>
     </div>
   );

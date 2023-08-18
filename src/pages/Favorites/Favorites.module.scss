@@ -1,0 +1,38 @@
+@import "src/styles/colors";
+
+.icon {
+  margin-right: 10px;
+  padding-top: 25px;
+}
+
+.tabsCard {
+  display: flex;
+  margin-left: 30px;
+}
+
+.lightContainer {
+  background-color: $white;
+  height: 180vh;
+}
+
+.darkContainer {
+  background-color: $black;
+  height: 180vh;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.emptyFavorites {
+  color: gray;
+  margin-left: 540px;
+}
+
+.empty {
+  display: flex;
+  margin-top: 10px;
+}
