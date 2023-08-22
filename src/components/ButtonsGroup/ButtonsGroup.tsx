@@ -27,7 +27,7 @@ const ButtonsGroup: FC<ButtonsGroupProps> = ({ buttonsGroup, disabled }) => {
             {item.title === "save" && !item.disabled && (
               <span
                 className={classNames({
-                  [styles.purpleBookmark]: item.active, // Применяем стиль, если кнопка активна
+                  [styles.purpleBookmark]: item.active,
                 })}
               >
                 {item.active ? (

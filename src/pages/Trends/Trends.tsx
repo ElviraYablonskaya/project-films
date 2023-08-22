@@ -5,14 +5,32 @@ import { AiFillFire } from "react-icons/ai";
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { TabsTypes, Theme } from "../../@types";
 import styles from "./Trends.module.scss";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useThemeContext } from "../../context/Theme";
 import classNames from "classnames";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  MovieSelectors,
+  getTrendsMovie,
+} from "../../redux/reducers/movieSlice";
+import Card from "../../components/Card";
+import Loader from "../../components/Loader";
 
 const Trends = () => {
   const [activeTab, setActiveTab] = useState(TabsTypes.Trends);
   const { themeValue } = useThemeContext();
+
+  const trendsMovie = useSelector(MovieSelectors.getTrendsMovie);
+  const isLoaderTrendsMovies = useSelector(
+    MovieSelectors.getLoaderTrendsMovies
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTrendsMovie("top_rated_series_250"));
+  }, []);
 
   const navigate = useNavigate();
 
@@ -82,6 +100,23 @@ const Trends = () => {
           activeTab={activeTab}
           onTabClick={onTabClick}
         />
+        {isLoaderTrendsMovies ? (
+          <Loader />
+        ) : (
+          <div className={styles.trendsCardContainer}>
+            {trendsMovie.map((movie) => {
+              return (
+                <Card
+                  card={movie}
+                  key={movie.id}
+                  className={styles.trendsCard}
+                  trends={true}
+                  icon={<AiFillFire style={{ marginRight: "5px" }} />}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

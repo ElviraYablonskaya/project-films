@@ -43,6 +43,13 @@ const getRelatedListMovie = () => {
   });
 };
 
+const getTrendsMovie = () => {
+  return API.get(`/titles`, {
+    list: "top_rated_series_250",
+    info: "base_info",
+  });
+};
+
 export default {
   getMovies,
   signUpUser,
@@ -50,4 +57,5 @@ export default {
   getSingleMovieData,
   getRelatedListMovie,
   getSearchMovies,
+  getTrendsMovie,
 };

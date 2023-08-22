@@ -32,7 +32,6 @@ const Input: FC<InputProps> = ({
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     onChange(event.target.value);
-    console.log(value);
   };
 
   const inputProps = {

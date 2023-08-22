@@ -1,5 +1,4 @@
 import { ReactElement } from "react";
-// import { RatingDataType } from "../redux/@types";
 
 export enum ButtonTypes {
   Primary = "primary",

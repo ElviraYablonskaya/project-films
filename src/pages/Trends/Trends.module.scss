@@ -10,7 +10,7 @@
   margin-left: 30px;
 }
 
-.cardContainer {
+.trendsCardContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -24,5 +24,11 @@
 
 .darkContainer {
   background-color: $black;
-  height: 100vh;
+  height: 470vh;
+}
+
+.trendsCard {
+  display: flex;
+  flex-wrap: wrap;
+  height: 400px;
 }

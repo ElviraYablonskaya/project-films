@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../Card";
 import { useDispatch, useSelector } from "react-redux";
 import { MovieSelectors, getAllMovies } from "../../redux/reducers/movieSlice";

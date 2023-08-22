@@ -6,14 +6,17 @@ import {
   getRelatedMovieList,
   getSearchedPosts,
   getSingleMovie,
+  getTrendsMovie,
   setAllMovies,
   setLoaderAllMovies,
   setLoaderRelatedMovies,
   setLoaderSearching,
   setLoaderSingleMovie,
+  setLoaderTrendsMovies,
   setRelatedMovieList,
   setSearchedPosts,
   setSingleMovie,
+  setTrendsMovie,
 } from "../reducers/movieSlice";
 import { MoviesListType, MoviesType } from "../../@types";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -79,11 +82,23 @@ function* getRelatedListMovieWorker() {
   }
 }
 
+function* getTrendsMovieWorker() {
+  yield put(setLoaderTrendsMovies(true));
+  const response: ApiResponse<MoviesListType> = yield call(API.getTrendsMovie);
+  if (response.ok && response.data) {
+    yield put(setTrendsMovie(response.data.results));
+    yield put(setLoaderTrendsMovies(false));
+  } else {
+    console.log("Trends Movie error", response.problem);
+  }
+}
+
 export default function* moviesSagaWatcher() {
   yield all([
     takeLatest(getAllMovies, getMoviesWorker),
     takeLatest(getSingleMovie, getSingleMovieWorker),
     takeLatest(getRelatedMovieList, getRelatedListMovieWorker),
     takeLatest(getSearchedPosts, getSearchedPostsWorker),
+    takeLatest(getTrendsMovie, getTrendsMovieWorker),
   ]);
 }

@@ -1,9 +1,7 @@
-import { FC, useEffect } from "react";
+import { FC, ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Card.module.scss";
 import { MoviesType, Theme } from "../../@types";
-import { useDispatch } from "react-redux";
-import { getRatingList } from "../../redux/reducers/movieSlice";
 import { useThemeContext } from "../../context/Theme";
 import classNames from "classnames";
 import { BsFillBookmarkFill } from "react-icons/bs";
@@ -12,21 +10,16 @@ import { getRatingColor } from "../../utils/functions";
 type CardProps = {
   card: MoviesType;
   className?: string;
-  ratingIcon?: React.ReactElement;
-  rating?: number | string;
   saved?: boolean;
+  trends?: boolean;
+  icon?: ReactElement;
 };
 
-const Card: FC<CardProps> = ({ card, saved }) => {
-  const dispatch = useDispatch();
+const Card: FC<CardProps> = ({ card, saved, trends, icon }) => {
 
   const navigate = useNavigate();
 
   const { themeValue } = useThemeContext();
-
-  useEffect(() => {
-    dispatch(getRatingList(card.id));
-  }, [dispatch, card.id]);
 
   const onTitleClick = () => {
     navigate(`/titles/${card.id}`);
@@ -38,12 +31,13 @@ const Card: FC<CardProps> = ({ card, saved }) => {
         {card.ratingsSummary.aggregateRating ? (
           <div
             style={{
-              backgroundColor: getRatingColor(
-                card.ratingsSummary.aggregateRating
-              ),
+              backgroundColor: trends
+                ? "#7B61FF"
+                : getRatingColor(card.ratingsSummary.aggregateRating),
             }}
             className={styles.rating}
           >
+            {icon}
             {card.ratingsSummary.aggregateRating}
           </div>
         ) : (
@@ -67,14 +61,14 @@ const Card: FC<CardProps> = ({ card, saved }) => {
       </div>
       <div>
         {card.originalTitleText && (
-        <div
-          className={classNames(styles.name, {
-            [styles.lightName]: themeValue === Theme.Light,
-          })}
-          onClick={onTitleClick}
-        >
-          {card.originalTitleText.text}
-        </div>
+          <div
+            className={classNames(styles.name, {
+              [styles.lightName]: themeValue === Theme.Light,
+            })}
+            onClick={onTitleClick}
+          >
+            {card.originalTitleText.text}
+          </div>
         )}
         {card.genres && (
           <div className={styles.genres}>

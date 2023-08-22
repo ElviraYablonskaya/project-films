@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { MoviesListType, MoviesType } from "../../@types";
 import { RootState } from "../store";
-import { RatingDataType, SingleMovieData } from "../@types";
+import { SingleMovieData } from "../@types";
 
 type InitialState = {
   moviesList: MoviesListType;
@@ -10,10 +10,11 @@ type InitialState = {
   isLoaderAllMowies: boolean;
   relatedMovieList: MoviesListType;
   isLoaderRelatedMovies: boolean;
-  ratingList: RatingDataType;
   savedPosts: MoviesListType;
   searchedPosts: MoviesListType;
   isSearchingLoader: boolean;
+  trendsMovie: MoviesListType;
+  isLoaderTrendsMovie: boolean;
 };
 
 const initialState: InitialState = {
@@ -23,10 +24,11 @@ const initialState: InitialState = {
   isLoaderAllMowies: false,
   relatedMovieList: [],
   isLoaderRelatedMovies: false,
-  ratingList: [],
   savedPosts: [],
   searchedPosts: [],
   isSearchingLoader: false,
+  trendsMovie: [],
+  isLoaderTrendsMovie: false,
 };
 
 const movieSlice = createSlice({
@@ -53,10 +55,6 @@ const movieSlice = createSlice({
     },
     setLoaderRelatedMovies: (state, action) => {
       state.isLoaderRelatedMovies = action.payload;
-    },
-    getRatingList: (_, __: PayloadAction<string>) => {},
-    setRatingList: (state, action: PayloadAction<RatingDataType>) => {
-      state.ratingList = action.payload;
     },
     setSaveStatus: (state, action: PayloadAction<{ card: MoviesType }>) => {
       const { card } = action.payload;
@@ -88,6 +86,13 @@ const movieSlice = createSlice({
     clearSearchedPosts: (state) => {
       state.searchedPosts = [];
     },
+    getTrendsMovie: (_, __: PayloadAction<string>) => {},
+    setTrendsMovie: (state, action: PayloadAction<MoviesListType>) => {
+      state.trendsMovie = action.payload;
+    },
+    setLoaderTrendsMovies: (state, action: PayloadAction<boolean>) => {
+      state.isLoaderTrendsMovie = action.payload;
+    },
   },
 });
 
@@ -101,13 +106,14 @@ export const {
   getRelatedMovieList,
   setRelatedMovieList,
   setLoaderRelatedMovies,
-  getRatingList,
-  setRatingList,
   setSaveStatus,
   setSearchedPosts,
   clearSearchedPosts,
   getSearchedPosts,
-  setLoaderSearching
+  setLoaderSearching,
+  getTrendsMovie,
+  setTrendsMovie,
+  setLoaderTrendsMovies,
 } = movieSlice.actions;
 
 export const MovieSelectors = {
@@ -121,10 +127,13 @@ export const MovieSelectors = {
     state.movieReducer.relatedMovieList,
   getLoaderRelatedMovies: (state: RootState) =>
     state.movieReducer.isLoaderRelatedMovies,
-  getRatingList: (state: RootState) => state.movieReducer.ratingList,
   getSavePosts: (state: RootState) => state.movieReducer.savedPosts,
   getSearchedPosts: (state: RootState) => state.movieReducer.searchedPosts,
-  getSearchingLoader: (state: RootState) => state.movieReducer.isSearchingLoader,
+  getSearchingLoader: (state: RootState) =>
+    state.movieReducer.isSearchingLoader,
+  getTrendsMovie: (state: RootState) => state.movieReducer.trendsMovie,
+  getLoaderTrendsMovies: (state: RootState) =>
+    state.movieReducer.isLoaderTrendsMovie,
 };
 
 export default movieSlice.reducer;

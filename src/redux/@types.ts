@@ -122,11 +122,3 @@ export type RelatedMovieListResponse = {
   titles: MoviesListType;
   status: string;
 };
-
-export type RatingData = {
-  tconst: string;
-  averageRating: number;
-  numVotes: number;
-};
-
-export type RatingDataType = RatingData[];
